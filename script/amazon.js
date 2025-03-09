@@ -1,21 +1,21 @@
 let web_html = '';
-product.forEach(product => {
+products.forEach(products => {
   web_html += `
   <div class="product-container">
           <div class="product-image-container">
-            <img class="product-image" src="${product.image}">
+            <img class="product-image" src="${products.image}">
           </div>
           <div class="Product-name">
-            ${product.name}
+            ${products.name}
           </div>
           <div class="product-rating-conatiner">
-            <img class="product-rating-star" src="images/ratings/rating-${product.rating.stars * 10}.png">
+            <img class="product-rating-star" src="images/ratings/rating-${products.rating.stars * 10}.png">
             <div class="product-rating-count link-primary">
-              ${product.rating.count}
+              ${products.rating.count}
             </div>
           </div>
 
-          <div class="product-price">${(product.priceCents / 100).toFixed(2)}</div>
+          <div class="product-price">${(products.priceCents / 100).toFixed(2)}</div>
           <div class="product-quantity-container">
             <select>
               <option selected value="1">1</option>
@@ -34,9 +34,32 @@ product.forEach(product => {
           <div class="added-to-cart">
             <img src="images/icons/checkmark.png">Added
           </div>
-          <button class="added-to-cart-primary-button button-primary">Add to Cart</button>
+          <button class="added-to-cart-primary-button button-primary js-add-to-cart"
+          data-product-id=${products.id} >Add to Cart</button>
         </div>
   ` ;
 });
 
 document.querySelector('.js-product-grid').innerHTML = web_html;
+
+document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
+  button.addEventListener('click',()=>{
+    const productId=button.dataset.productId;
+    let matchingItem;
+    cart.forEach((item)=>{
+      if(productId===item.productId){
+        matchingItem=item;
+      }
+    });
+    if(matchingItem){
+      matchingItem.quantity+=1;
+    }
+    else{
+      cart.push({
+        productId: productId,
+        quantity: 1
+      });
+    }
+    console.log(cart)
+  });
+});
