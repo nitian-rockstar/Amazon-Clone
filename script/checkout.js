@@ -78,5 +78,4 @@ cart.forEach((cartItem)=>{
   </div>`;
 });
 document.querySelector('.js-order-summary').innerHTML=cart_html;
-console.log(cart_html);
 
